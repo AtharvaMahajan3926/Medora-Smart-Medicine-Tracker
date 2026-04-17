@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Navbar({ user, onLogout }) {
+export default function Navbar({ user, onLogout, theme, toggleTheme }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -16,6 +16,18 @@ export default function Navbar({ user, onLogout }) {
       </Link>
 
       <ul className="navbar-links">
+        <li style={{ display: 'flex', alignItems: 'center' }}>
+          <button 
+            className="theme-toggle" 
+            onClick={toggleTheme} 
+            title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+            aria-label="Toggle Dark Mode"
+          >
+            <span className={`toggle-icon ${theme === 'dark' ? 'spin-in' : ''}`} key={theme}>
+              {theme === 'light' ? '🌙' : '☀️'}
+            </span>
+          </button>
+        </li>
         {!user ? (
           <>
             <li><Link to="/signin">Sign In</Link></li>

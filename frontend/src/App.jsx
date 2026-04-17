@@ -13,6 +13,15 @@ import './index.css';
 export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState(() => localStorage.getItem('medora_theme') || 'light');
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('medora_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light');
 
   // On mount, try to restore session from stored JWT token
   useEffect(() => {
@@ -61,7 +70,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Navbar user={user} onLogout={handleLogout} />
+      <Navbar user={user} onLogout={handleLogout} theme={theme} toggleTheme={toggleTheme} />
       <Routes>
         {/* Public */}
         <Route path="/" element={<LandingPage />} />

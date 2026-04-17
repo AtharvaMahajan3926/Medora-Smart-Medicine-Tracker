@@ -145,3 +145,80 @@ async def verify_booking(data: VerifyBookingRequest, current_user: dict = Depend
         "customer_name": customer_name,
         "items": verified_items
     }
+
+@router.get("/my")
+async def get_my_bookings(current_user: dict = Depends(get_current_user)):
+    user_id = current_user["_id"]
+    from database import medicines_collection, pharmacies_collection
+    
+    # Query bookings for this user
+    cursor = bookings_collection.find({"user_id": user_id}).sort("created_at", -1)
+    bookings = await cursor.to_list(length=100)
+    
+    result = []
+    for b in bookings:
+        # Resolve pharmacy name
+        pharmacy_id = b.get("pharmacy_id")
+        pharmacy = await pharmacies_collection.find_one({"_id": ObjectId(pharmacy_id)} if ObjectId.is_valid(pharmacy_id) else {"legacy_id": pharmacy_id})
+        pharmacy_name = pharmacy.get("name", "Unknown Pharmacy") if pharmacy else "Unknown Pharmacy"
+        
+        items = []
+        for item in b.get("items", []):
+            med_id = item.get("medicine_id")
+            med = await medicines_collection.find_one({"_id": ObjectId(med_id)} if ObjectId.is_valid(med_id) else {"legacy_id": med_id})
+            med_name = med.get("name", "Unknown Medicine") if med else "Unknown Medicine"
+            items.append({
+                "name": med_name,
+                "quantity": item["quantity"],
+                "price": item.get("price", 0.0)
+            })
+            
+        result.append({
+            "id": str(b["_id"]),
+            "pharmacy_name": pharmacy_name,
+            "status": b.get("status"),
+            "created_at": b.get("created_at").isoformat() if b.get("created_at") else None,
+            "items": items,
+            "qr_token": b.get("qr_token")
+        })
+    return result
+
+@router.get("/pharmacy-history")
+async def get_pharmacy_booking_history(current_user: dict = Depends(get_current_user)):
+    if current_user.get("role") != "pharmacist":
+        raise HTTPException(status_code=403, detail="Pharmacist privileges required")
+        
+    pharmacy = await pharmacies_collection.find_one({"owner_id": current_user["_id"]})
+    if not pharmacy:
+        raise HTTPException(status_code=404, detail="No pharmacy associated with your account")
+        
+    pid = pharmacy.get("legacy_id") or str(pharmacy["_id"])
+    from database import medicines_collection, users_collection
+    
+    cursor = bookings_collection.find({"pharmacy_id": pid}).sort("created_at", -1)
+    bookings = await cursor.to_list(length=100)
+    
+    result = []
+    for b in bookings:
+        user_id = b.get("user_id")
+        user = await users_collection.find_one({"_id": ObjectId(user_id)} if ObjectId.is_valid(user_id) else {"_id": user_id})
+        customer_name = user.get("name", "Unknown Customer") if user else "Unknown Customer"
+        
+        items = []
+        for item in b.get("items", []):
+            med_id = item.get("medicine_id")
+            med = await medicines_collection.find_one({"_id": ObjectId(med_id)} if ObjectId.is_valid(med_id) else {"legacy_id": med_id})
+            med_name = med.get("name", "Unknown Medicine") if med else "Unknown Medicine"
+            items.append({
+                "name": med_name,
+                "quantity": item["quantity"]
+            })
+            
+        result.append({
+            "id": str(b["_id"]),
+            "customer_name": customer_name,
+            "status": b.get("status"),
+            "created_at": b.get("created_at").isoformat() if b.get("created_at") else None,
+            "items": items
+        })
+    return result

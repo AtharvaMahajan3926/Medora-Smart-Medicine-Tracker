@@ -194,3 +194,11 @@ export async function verifyBooking(qrToken) {
     body: JSON.stringify({ qr_token: qrToken }),
   });
 }
+
+export async function getMyBookings() {
+  return request('/bookings/my');
+}
+
+export async function getPharmacyBookingHistory() {
+  return request('/bookings/pharmacy-history');
+}
