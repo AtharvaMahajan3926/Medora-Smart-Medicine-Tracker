@@ -478,15 +478,15 @@ export default function UserDashboard() {
       {activeTab === 'search' ? (
         <>
           <div className="animate-in" style={{ flexShrink: 0 }}>
-            <h2 style={{ fontSize: 'var(--fs-2xl)', fontWeight: 'var(--fw-bold)', marginBottom: 'var(--sp-sm)' }}>
+            <h2 style={{ fontSize: 'var(--fs-3xl)', fontWeight: 'var(--fw-extrabold)', marginBottom: 'var(--sp-xs)', background: 'linear-gradient(135deg, var(--clr-primary), var(--clr-primary-light))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               Find Medicines Near You
             </h2>
-            <p style={{ color: 'var(--clr-text-muted)', fontSize: 'var(--fs-sm)', marginBottom: 'var(--sp-lg)' }}>
+            <p style={{ color: 'var(--clr-text-muted)', fontSize: 'var(--fs-md)', marginBottom: 'var(--sp-lg)' }}>
               Search for any medicine and see which nearby pharmacies have it in stock.
               {locationGranted ? " (Using your Live Location 📍)" : ""}
             </p>
 
-            <form className="search-section" onSubmit={handleSearch}>
+            <form className="search-section card" style={{ padding: 'var(--sp-md)', display: 'flex', gap: 'var(--sp-md)', marginBottom: 'var(--sp-lg)', flexWrap: 'wrap', alignItems: 'center' }} onSubmit={handleSearch}>
               <div className="search-bar">
                 <span className="search-icon">🔍</span>
                 <input
@@ -569,16 +569,18 @@ export default function UserDashboard() {
 
             {/* Sidebar List */}
             {hasSearched && mapPins.length > 0 && (
-              <div style={{ width: '350px', display: 'flex', flexDirection: 'column', gap: '1rem', overflowY: 'auto', paddingRight: '10px' }}>
-                {mapPins.map(pin => (
-                  <div key={pin.pharmacy.id} style={{ background: 'var(--clr-surface)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--clr-border)', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+              <div style={{ width: '380px', display: 'flex', flexDirection: 'column', gap: 'var(--sp-md)', overflowY: 'auto', paddingRight: '10px' }}>
+                {mapPins.map((pin, index) => (
+                  <div key={pin.pharmacy.id} className={`card animate-in-up stagger-${(index % 6) + 1}`} style={{ padding: 'var(--sp-md)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                      <h3 style={{ margin: 0, fontSize: '1rem' }}>{pin.pharmacy.name}</h3>
+                      <h3 style={{ margin: 0, fontSize: 'var(--fs-lg)', color: 'var(--clr-text)' }}>{pin.pharmacy.name}</h3>
                       {pin.pharmacy.distance !== null && (
-                        <span className="badge badge-primary">{pin.pharmacy.distance} km</span>
+                        <span className="badge badge-primary scale-in" style={{ animationDelay: `${0.2 + (index % 6) * 0.1}s` }}>
+                          {pin.pharmacy.distance} km
+                        </span>
                       )}
                     </div>
-                    <p style={{ fontSize: '0.8rem', color: 'var(--clr-text-muted)', marginBottom: '0.5rem' }}>📍 {pin.pharmacy.address}</p>
+                    <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--clr-text-muted)', marginBottom: '0.75rem' }}>📍 {pin.pharmacy.address}</p>
 
                     <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
                       <button className="btn btn-primary btn-sm" onClick={() => openBookingSetup(pin)}>🛒 Book</button>
@@ -586,12 +588,12 @@ export default function UserDashboard() {
                       <a href={`tel:${pin.pharmacy.phone}`} className="btn btn-ghost btn-sm">📞 Call</a>
                     </div>
 
-                    <div>
+                    <div style={{ background: 'var(--clr-surface-alt)', borderRadius: 'var(--radius-sm)', padding: 'var(--sp-sm)' }}>
                       {pin.allMedicines.map((m, i) => (
-                        <div key={i} style={{ borderTop: i > 0 ? '1px solid var(--clr-border)' : 'none', padding: '0.5rem 0', fontSize: '0.85rem' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: '500' }}>
+                        <div key={i} style={{ borderTop: i > 0 ? '1px solid var(--clr-border)' : 'none', padding: '0.5rem 0', fontSize: 'var(--fs-sm)' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'var(--fw-medium)' }}>
                             <span>{m.medicine.name}</span>
-                            <span>₹{m.price || 0}</span>
+                            <span style={{ color: 'var(--clr-primary-dark)' }}>₹{m.price || 0}</span>
                           </div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.25rem' }}>
                             {getStockBadge(m.stock)}
@@ -798,9 +800,9 @@ export default function UserDashboard() {
               <button className="btn btn-primary" style={{ marginTop: '1rem' }} onClick={() => setActiveTab('search')}>Start Searching</button>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {myBookings.map(b => (
-                <div key={b.id} style={{ background: 'var(--clr-surface)', padding: '1.5rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--clr-border)', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-md)' }}>
+              {myBookings.map((b, index) => (
+                <div key={b.id} className={`card animate-in-up stagger-${(index % 6) + 1}`} style={{ padding: 'var(--sp-lg)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                     <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--clr-text)' }}>{b.pharmacy_name}</h3>
                     <span className={`badge ${b.status === 'confirmed' ? 'badge-success' : b.status === 'pending' ? 'badge-warning' : 'badge-danger'}`} style={{ textTransform: 'capitalize', fontSize: '0.8rem', padding: '0.4em 0.8em' }}>
@@ -842,7 +844,7 @@ export default function UserDashboard() {
       {/* Booking Modal */}
       {showBookModal && bookingPharmacy && (
         <div className="modal-overlay" onClick={() => !qrToken && setShowBookModal(false)}>
-          <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: '500px' }}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
 
             {!qrToken ? (
               <>

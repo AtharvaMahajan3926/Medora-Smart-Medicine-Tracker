@@ -317,10 +317,10 @@ export default function PharmacistDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {items.map(item => {
+                      {items.map((item, index) => {
                         const expiring = isExpiringSoon(item.expiryDate);
                         return (
-                          <tr key={item.id}>
+                          <tr key={item.id} className={`animate-in-left stagger-${(index % 6) + 1}`}>
                             <td><strong>{item.name}</strong></td>
                             <td>
                               <span style={{ fontSize: 'var(--fs-xs)', background: 'var(--clr-surface-alt)', padding: '2px 6px', borderRadius: '4px' }}>
@@ -659,7 +659,7 @@ function OrderScannerTab({ loadInventory }) {
               <h3 style={{ margin: '0 0 1rem 0', fontSize: '1rem', color: 'var(--clr-text)' }}>💊 Medicines to Dispense</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 {(bookingDetails.items || []).map((item, index) => (
-                  <div key={index} style={{
+                  <div key={index} className="animate-in-up" style={{
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -844,8 +844,8 @@ function OrderHistoryTab() {
               </tr>
             </thead>
             <tbody>
-              {filteredBookings.map(booking => (
-                <tr key={booking.id}>
+              {filteredBookings.map((booking, index) => (
+                <tr key={booking.id} className={`animate-in-left stagger-${(index % 6) + 1}`}>
                   <td>
                     <div style={{ fontWeight: '600' }}>{booking.customer_name}</div>
                     <div style={{ fontSize: '0.8rem', color: 'var(--clr-text-muted)' }}>

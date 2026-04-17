@@ -7,7 +7,7 @@ export default function LandingPage() {
       <section className="hero">
         <div className="hero-content">
           <h1>
-            Find Your Medicine,{' '}
+            Find Your Medicine,<br/>
             <span>Right on Time</span>
           </h1>
           <p>
@@ -24,24 +24,45 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
+        
+        <div className="hero-visual animate-in-up stagger-3">
+          <div className="visual-orb visual-orb-primary" style={{ animation: 'float 8s ease-in-out infinite' }}>💊</div>
+          <div className="visual-orb visual-orb-secondary" style={{ animation: 'float-reverse 10s ease-in-out infinite' }}>🗺️</div>
+          <div className="visual-glass-card">
+            <div className="glass-header">
+              <span className="dot dot-red"></span>
+              <span className="dot dot-yellow"></span>
+              <span className="dot dot-green"></span>
+            </div>
+            <div className="glass-body">
+              <div className="glass-line w-70"></div>
+              <div className="glass-line w-full"></div>
+              <div className="glass-line w-50"></div>
+              <div style={{ display: 'flex', gap: '8px', marginTop: '1rem' }}>
+                <span className="badge badge-success">In Stock</span>
+                <span className="badge badge-primary">2.4km</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* How It Works */}
       <section className="how-it-works">
         <h2>How It Works</h2>
         <div className="steps-grid">
-          <div className="step-item animate-in" style={{ animationDelay: '0.1s' }}>
-            <div className="step-number">1</div>
+          <div className="step-item animate-in-up stagger-1">
+            <div className="step-number" style={{ animation: 'float 6s ease-in-out infinite' }}>1</div>
             <h3>Search Medicine</h3>
             <p>Type the name of any medicine or browse by category to find what you need.</p>
           </div>
-          <div className="step-item animate-in" style={{ animationDelay: '0.3s' }}>
-            <div className="step-number">2</div>
+          <div className="step-item animate-in-up stagger-3">
+            <div className="step-number" style={{ animation: 'float-reverse 7s ease-in-out infinite' }}>2</div>
             <h3>View Nearby Stock</h3>
             <p>See which nearby pharmacies have it in stock with live map pins and distance info.</p>
           </div>
-          <div className="step-item animate-in" style={{ animationDelay: '0.5s' }}>
-            <div className="step-number">3</div>
+          <div className="step-item animate-in-up stagger-5">
+            <div className="step-number" style={{ animation: 'float 8s ease-in-out infinite' }}>3</div>
             <h3>Book & Collect</h3>
             <p>Reserve your medicine, get a QR code, and pick it up from the pharmacy within 30 minutes.</p>
           </div>
@@ -52,7 +73,7 @@ export default function LandingPage() {
       <section className="features">
         <h2>Why Choose MEDORA?</h2>
         <div className="features-grid">
-          <div className="feature-card" style={{ animationDelay: '0.1s' }}>
+          <div className="feature-card animate-in-up stagger-1">
             <div className="feature-icon">🔍</div>
             <h3>Smart Search</h3>
             <p>
@@ -61,7 +82,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="feature-card" style={{ animationDelay: '0.2s' }}>
+          <div className="feature-card animate-in-up stagger-3">
             <div className="feature-icon">🗺️</div>
             <h3>Live Map View</h3>
             <p>
@@ -70,7 +91,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="feature-card" style={{ animationDelay: '0.3s' }}>
+          <div className="feature-card animate-in-up stagger-4">
             <div className="feature-icon">📞</div>
             <h3>Quick Actions</h3>
             <p>
@@ -79,7 +100,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="feature-card" style={{ animationDelay: '0.4s' }}>
+          <div className="feature-card animate-in-up stagger-5">
             <div className="feature-icon">💊</div>
             <h3>Pharmacist Portal</h3>
             <p>
@@ -88,7 +109,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="feature-card" style={{ animationDelay: '0.5s' }}>
+          <div className="feature-card animate-in-up stagger-6">
             <div className="feature-icon">🔒</div>
             <h3>Rx Awareness</h3>
             <p>
@@ -97,7 +118,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="feature-card" style={{ animationDelay: '0.6s' }}>
+          <div className="feature-card animate-in-up stagger-1">
             <div className="feature-icon">🏥</div>
             <h3>Verified Pharmacies</h3>
             <p>
