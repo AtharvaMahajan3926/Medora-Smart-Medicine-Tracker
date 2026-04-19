@@ -4,6 +4,7 @@ MEDORA Backend — FastAPI Application
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 from database import db, users_collection
 from auth import hash_password
@@ -56,13 +57,25 @@ app = FastAPI(
 )
 
 # ── CORS ──────────────────────────────────────────────────────
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://localhost:3000",
+]
+
+# Add production origin from environment variable if present
+prod_origin = os.getenv("FRONTEND_URL")
+if prod_origin:
+    origins.append(prod_origin)
+    # Also allow variants (with/without trailing slash)
+    if not prod_origin.endswith("/"):
+        origins.append(f"{prod_origin}/")
+    else:
+        origins.append(prod_origin[:-1])
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:3000",
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
