@@ -13,17 +13,37 @@
 [![React](https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB_Atlas-47A248?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
 [![Python](https://img.shields.io/badge/Python_3.10+-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![JWT](https://img.shields.io/badge/JWT_Auth-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://medora-smart-medicine-tracker.vercel.app)
+[![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=black)](https://medora-smart-medicine-tracker.onrender.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 
 <br/>
 
-<img src="https://github.com/user-attachments/assets/d8b7b565-59d7-4040-a4b6-80f2c99d2668" alt="Medora App Preview" width="90%" />
+### 🌐 Live Demo
 
-<br/><br/>
+| Service | URL |
+|---|---|
+| 🖥️ **Frontend** | [medora-smart-medicine-tracker.vercel.app](https://medora-smart-medicine-tracker.vercel.app) |
+| ⚙️ **Backend API** | [medora-smart-medicine-tracker.onrender.com](https://medora-smart-medicine-tracker.onrender.com) |
+| 📖 **API Docs** | [medora-smart-medicine-tracker.onrender.com/docs](https://medora-smart-medicine-tracker.onrender.com/docs) |
+
+<br/>
+
+> 📸 **App Preview**
+
+![Medora App Preview](https://raw.githubusercontent.com/AtharvaMahajan3926/Medicine_availability_tracker/main/assets/app-preview.png)
+
+<br/>
+
+> 🏗️ **Architecture**
+
+![Medora Architecture](https://raw.githubusercontent.com/AtharvaMahajan3926/Medicine_availability_tracker/main/assets/architecture.png)
+
+<br/>
 
 </div>
 
@@ -91,9 +111,16 @@ With Medora, you simply search for a medicine — and instantly see **which phar
 ### Database & Auth
 | Technology | Purpose |
 |---|---|
-| MongoDB | NoSQL document database |
+| MongoDB Atlas | Cloud NoSQL document database |
 | JWT (JSON Web Tokens) | Stateless role-based authentication |
 | Bcrypt | Secure password hashing |
+
+### Deployment
+| Service | Purpose |
+|---|---|
+| Vercel | Frontend hosting with auto-deploy |
+| Render | Backend (FastAPI) hosting |
+| MongoDB Atlas | Cloud database (M0 free tier) |
 
 ---
 
@@ -107,35 +134,55 @@ Medicine_availability_tracker/
 │   ├── models.py            # Pydantic schemas
 │   ├── auth.py              # JWT + Bcrypt logic
 │   ├── database.py          # MongoDB Motor connection
+│   ├── email_utils.py       # Email notification helpers
 │   ├── routes/
-│   │   ├── medicines.py     # Medicine search + Haversine logic
-│   │   ├── bookings.py      # Booking + QR token generation
-│   │   ├── pharmacist.py    # Inventory management routes
-│   │   └── admin.py         # Admin control routes
+│   │   ├── __init__.py
+│   │   ├── admin_routes.py      # Admin control routes
+│   │   ├── auth_routes.py       # Auth (signup/signin)
+│   │   ├── booking_routes.py    # Booking + QR token generation
+│   │   ├── inventory_routes.py  # Inventory management routes
+│   │   └── search_routes.py     # Medicine search + Haversine logic
+│   ├── scripts/
+│   │   ├── seed.py          # Database seeder
+│   │   └── test_db.py       # DB connection test
 │   └── requirements.txt
 │
-├── 📁 src/
-│   ├── 📁 components/       # Reusable UI components
-│   ├── 📁 pages/
-│   │   ├── UserDashboard.jsx
-│   │   ├── PharmacistDashboard.jsx
-│   │   ├── AdminDashboard.jsx
-│   │   ├── SignIn.jsx
-│   │   └── SignUp.jsx
-│   ├── data/data.js         # Categories and static config
-│   ├── api.js               # API call helpers
-│   └── main.jsx             # App root
+├── 📁 frontend/
+│   ├── 📁 src/
+│   │   ├── 📁 components/common/
+│   │   │   ├── MotionContainer.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Skeleton.css
+│   │   │   └── Skeleton.jsx
+│   │   ├── 📁 data/
+│   │   │   └── data.js
+│   │   ├── 📁 pages/
+│   │   │   ├── AdminDashboard.jsx
+│   │   │   ├── LandingPage.jsx
+│   │   │   ├── PharmacistDashboard.jsx
+│   │   │   ├── SignIn.jsx
+│   │   │   ├── SignUp.jsx
+│   │   │   └── UserDashboard.jsx
+│   │   ├── 📁 services/
+│   │   │   └── api.js
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   ├── 📁 public/
+│   ├── index.html
+│   ├── vite.config.js
+│   └── package.json
 │
-├── 📁 public/
-├── index.html
-├── vite.config.js
-├── package.json
+├── 📁 assets/               # Screenshots for README
+│   ├── app-preview.png
+│   └── architecture.png
+│
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Getting Started (Local Development)
 
 ### Prerequisites
 
@@ -182,14 +229,14 @@ Start the server:
 uvicorn main:app --reload --port 8000
 ```
 
-> 📖 Swagger API docs available at `http://localhost:8000/docs`
+> 📖 Swagger docs at `http://localhost:8000/docs`
 
 ---
 
 ### 3️⃣ Frontend Setup
 
 ```bash
-# From project root
+cd frontend
 npm install
 
 # Configure environment
@@ -210,6 +257,49 @@ npm run dev
 
 ---
 
+## ☁️ Deployment
+
+Medora is fully deployed on free-tier cloud services.
+
+```
+User Browser
+      ↓  HTTPS
+Vercel — React + Vite frontend
+      ↓  REST API calls
+Render — FastAPI + Uvicorn backend
+      ↓  Motor (async driver)
+MongoDB Atlas — M0 free cluster
+```
+
+### Frontend — Vercel
+- Root directory: `frontend`
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment variable:
+  ```
+  VITE_API_BASE_URL = https://medora-smart-medicine-tracker.onrender.com
+  ```
+
+### Backend — Render
+- Root directory: `backend`
+- Build command: `pip install -r requirements.txt`
+- Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+- Environment variables:
+  ```
+  MONGO_URI          = mongodb+srv://<user>:<pass>@cluster.mongodb.net/medora
+  JWT_SECRET         = your_secret_key
+  JWT_EXPIRE_MINUTES = 60
+  ```
+
+### Database — MongoDB Atlas
+- Free M0 cluster (512MB)
+- Region: AWS Mumbai (ap-south-1)
+- Network access: `0.0.0.0/0`
+
+> ⚠️ **Render cold starts:** Free tier sleeps after 15 min of inactivity. Use [cron-job.org](https://cron-job.org) to ping `https://medora-smart-medicine-tracker.onrender.com/docs` every 10 minutes to keep it warm.
+
+---
+
 ## 🔑 Demo Accounts
 
 | Role | Email | Password |
@@ -225,12 +315,12 @@ npm run dev
 ```
 User searches "Paracetamol"
         ↓
-Backend queries MongoDB for matching medicines
+Backend queries MongoDB Atlas for matching medicines
         ↓
 Haversine formula ranks pharmacies by distance to user GPS
         ↓
 Map renders color-coded pins:
-    🟢 In Stock (≥10 units)
+    🟢 In Stock  (≥10 units)
     🟡 Low Stock (1–9 units)
     🔴 Out of Stock
         ↓
@@ -257,6 +347,8 @@ User shows QR at pharmacy counter → pharmacist scans → done ✅
 | `GET` | `/admin/users` | List all users | ✅ Admin |
 | `GET` | `/admin/pharmacies` | List all pharmacies | ✅ Admin |
 | `DELETE` | `/admin/users/{id}` | Remove a user | ✅ Admin |
+
+> 📖 Full interactive docs: [medora-smart-medicine-tracker.onrender.com/docs](https://medora-smart-medicine-tracker.onrender.com/docs)
 
 ---
 
